@@ -12,18 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.as.uestc.Answer.presenter.AnswerListenerImpl;
-import com.example.as.uestc.Answer.view.AnswerView;
 import com.example.as.uestc.R;
-import com.example.as.uestc.base.mvp.EventListener;
 
 /**
+ * 确定打分的对话框
  * Created by as on 2017/11/5.
  */
 
 public class SureDialog extends DialogFragment {
 
-    EventListener listener;
     private String score,TOKEN,ID;
     private SureDialog context;
     private TextView title;
@@ -34,11 +31,6 @@ public class SureDialog extends DialogFragment {
         super();
     }
 
-    public SureDialog(EventListener eventListener)
-    {
-        super();
-        this.listener=eventListener;
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +61,14 @@ public class SureDialog extends DialogFragment {
         posi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((AnswerListenerImpl)listener).notifyTickView((AnswerView)(((AnswerListenerImpl) listener).getPresenter().getView()));
                 Bundle bundle=new Bundle();
                 bundle.putString("score",score);
                 bundle.putString("token",TOKEN);
                 bundle.putString("classID",ID);
                 Intent intent=new Intent();
                 intent.putExtras(bundle);
+
+                //点击确定后提交数据交给上一个fragment来完成
                 getTargetFragment().onActivityResult(0, Activity.RESULT_OK,intent);
                 FragmentTransaction transaction=getActivity().getFragmentManager().beginTransaction();
                 transaction.remove(context);

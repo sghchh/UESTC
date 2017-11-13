@@ -1,5 +1,6 @@
 package com.example.as.uestc.Answer.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by as on 2017/11/8.
  */
 
-public class CurrentClass {
+public class CurrentClass implements Serializable{
     private String errcode;
     private String errmsg;
     private int orderNum;

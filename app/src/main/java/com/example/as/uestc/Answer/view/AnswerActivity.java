@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.as.uestc.Answer.TickView.TickView;
 import com.example.as.uestc.Answer.beans.ClassList;
 import com.example.as.uestc.Answer.beans.CurrentClass;
+import com.example.as.uestc.Answer.beans.ScorePost;
 import com.example.as.uestc.Answer.fragments.MainFragment;
 import com.example.as.uestc.Answer.model.AnswerModelImpl;
 import com.example.as.uestc.Answer.presenter.AnswerListenerImpl;
@@ -66,10 +67,13 @@ public class AnswerActivity extends AnswerView {
 
     @Override
     public void initFragment(CurrentClass currentClass) {
-        fragment=new MainFragment(getListener(),currentClass);
-        Bundle id=new Bundle();
-        id.putString("token",TOKEN);
-        fragment.setArguments(id);
+
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("listener",getListener());
+        bundle.putSerializable("currentclass",currentClass);
+        bundle.putString("token",TOKEN);
+        fragment=new MainFragment();
+        fragment.setArguments(bundle);
 
         FragmentTransaction transaction=getFragmentManager().beginTransaction();
         transaction.replace(R.id.answer_activity_fragment,fragment);
@@ -77,6 +81,19 @@ public class AnswerActivity extends AnswerView {
     }
 
 
+    /**
+     * 处理Fragment传来的提交打分的事务
+     * @param scorePost
+     */
+    public void postScore(ScorePost scorePost)
+    {
+        ((AnswerListenerImpl)getListener()).callPresenterToPostScore(scorePost);
+        notifyTickViewChange();
+    }
+
+    /**
+     * 通知TickView改变状态
+     */
     public void notifyTickViewChange()
     {
         View view=recycler.getChildAt(0);

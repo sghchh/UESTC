@@ -1,11 +1,13 @@
 package com.example.as.uestc.Answer.beans;
 
+import java.io.Serializable;
+
 /**
  *
  * Created by as on 2017/11/5.
  */
 
-public class Info {
+public class Info implements Serializable{
         private String orderNum;
         private String classID;
         private String academy;

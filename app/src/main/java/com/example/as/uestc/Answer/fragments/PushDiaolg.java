@@ -16,10 +16,9 @@ import android.widget.Toast;
 import com.example.as.uestc.Answer.CircleImageView;
 import com.example.as.uestc.Answer.MyTextWatcher;
 import com.example.as.uestc.R;
-import com.example.as.uestc.base.mvp.EventListener;
-import com.example.as.uestc.base.mvp.presenter.BasePresenter;
 
 /**
+ * 打分的对话框
  * Created by as on 2017/11/5.
  */
 
@@ -28,18 +27,11 @@ public class PushDiaolg extends DialogFragment {
     private TextView submit,title;
     private EditText edit;
     private PushDiaolg context;
-    private EventListener listener;
     private String TOKEN,ID;
 
     public PushDiaolg()
     {
         super();
-    }
-
-    public PushDiaolg(EventListener listener)
-    {
-        super();
-        this.listener=listener;
     }
 
     @Override
@@ -82,7 +74,7 @@ public class PushDiaolg extends DialogFragment {
                     Toast.makeText(getContext(),"分值必须在0.0-100.0之间",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    SureDialog dialog=new SureDialog(listener);
+                    SureDialog dialog=new SureDialog();
                     Bundle bundle=new Bundle();
                     bundle.putString("score",edit.getText().toString());
                     bundle.putString("classID",ID);
@@ -104,6 +96,7 @@ public class PushDiaolg extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode== Activity.RESULT_OK)
         {
+            //提交数据的实现交给上一级Fragment来实现
             getTargetFragment().onActivityResult(0,Activity.RESULT_OK,data);
         }
     }

@@ -17,6 +17,7 @@ import com.example.as.uestc.Answer.MyTransformation;
 import com.example.as.uestc.Answer.beans.CurrentClass;
 import com.example.as.uestc.Answer.beans.ScorePost;
 import com.example.as.uestc.Answer.presenter.AnswerListenerImpl;
+import com.example.as.uestc.Answer.view.AnswerActivity;
 import com.example.as.uestc.Answer.view.adapter.MyPagerAdapter;
 import com.example.as.uestc.R;
 import com.example.as.uestc.base.mvp.EventListener;
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment {
         super();
     }
 
+    /*
     public MainFragment(EventListener listener,CurrentClass currentClass)
     {
         super();
@@ -49,12 +51,16 @@ public class MainFragment extends Fragment {
         this.currentClass=currentClass;
         ID=currentClass.getClassID();
     }
+    */
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=this;
         TOKEN=getArguments().getString("token");
+        listener=(AnswerListenerImpl)getArguments().getSerializable("listener");
+        currentClass=(CurrentClass)getArguments().getSerializable("currentclass");
+        ID=currentClass.getClassID();
     }
 
     @Nullable
@@ -113,10 +119,11 @@ public class MainFragment extends Fragment {
         push.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PushDiaolg diaolg=new PushDiaolg(listener);
+                PushDiaolg diaolg=new PushDiaolg();
                 Bundle data=new Bundle();
                 data.putString("classID",ID);
                 data.putString("token",TOKEN);
+                data.putSerializable("listener",listener);
                 diaolg.setArguments(data);
                 diaolg.setTargetFragment(context,0);
                 diaolg.show(getFragmentManager(),null);
@@ -128,10 +135,11 @@ public class MainFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode== Activity.RESULT_OK)
         {
+            //处理提交数据的事件
             String token=data.getExtras().getString("token");
             String id=data.getExtras().getString("classID");
             String score=data.getExtras().getString("score");
-            ((AnswerListenerImpl)listener).postScore(new ScorePost(id,score,token));
+            ((AnswerActivity)getActivity()).postScore(new ScorePost(id,score,token));
         }
     }
 }

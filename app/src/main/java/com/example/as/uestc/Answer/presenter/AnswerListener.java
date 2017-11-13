@@ -1,6 +1,5 @@
 package com.example.as.uestc.Answer.presenter;
 
-import com.example.as.uestc.Answer.view.AnswerView;
 import com.example.as.uestc.base.mvp.EventListener;
 import com.example.as.uestc.base.mvp.presenter.BasePresenter;
 
@@ -18,5 +17,4 @@ abstract class AnswerListener implements EventListener {
     {
         return this.presenter;
     }
-    abstract void notifyTickView(AnswerView answerView);
 }
