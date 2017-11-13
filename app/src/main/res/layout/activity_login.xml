@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardCornerRadius="16dp"
+    tools:context="com.example.as.uestc.login.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.example.as.uestc.Answer.CircleImageView
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:id="@+id/login_head"
+            android:src="@drawable/head"
+            app:civ_circle_background_color="#FFFFFFFF"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/login_title"
+            android:text="电子科技大学"
+            android:gravity="center"
+            android:layout_marginTop="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/login_little_title"
+            android:layout_below="@id/login_title"
+            android:layout_marginTop="14dp"
+            android:text="优秀班集体答辩会"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/login_username"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:hint="username"
+            android:layout_below="@id/login_little_title"
+            android:layout_marginTop="9dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/login_passwords"
+            android:layout_below="@id/login_username"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:hint="请输入密码"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="9dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/login_signin"
+            android:text="登录"
+            android:layout_below="@id/login_passwords"
+            android:layout_marginTop="9dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/login_back"
+            android:text="退出当前账号"
+            android:layout_below="@id/login_signin"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

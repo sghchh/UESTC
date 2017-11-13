@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TickView">
+        <attr name="uncheck_base_color" format="color"/>
+        <attr name="check_base_color" format="color"/>
+        <attr name="check_tick_color" format="color"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="rate">
+            <enum name="slow" value="0"/>
+            <enum name="normal" value="1"/>
+            <enum name="fast" value="2"/>
+        </attr>
+        <attr name="clickable" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_border_overlay" format="boolean"/>
+        <attr name="civ_fill_color" format="color" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+</resources>
