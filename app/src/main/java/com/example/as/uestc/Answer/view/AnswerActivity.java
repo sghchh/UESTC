@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.as.uestc.Answer.TickView.TickView;
 import com.example.as.uestc.Answer.beans.ClassList;
@@ -88,16 +89,25 @@ public class AnswerActivity extends AnswerView {
     public void postScore(ScorePost scorePost)
     {
         ((AnswerListenerImpl)getListener()).callPresenterToPostScore(scorePost);
-        notifyTickViewChange();
     }
 
     /**
      * 通知TickView改变状态
+     * 当打分成功的时候在AnswerPreImpl的postScore方法中被调用
      */
     public void notifyTickViewChange()
     {
         View view=recycler.getChildAt(0);
         ((TickView)view.findViewById(R.id.recycler_item_tick)).setChecked(true);
+    }
+
+    /**
+     * 提交打分的返回数据的处理
+     * 当打分失败的时候在AnswerPreImpl的postScore方法中被调用
+     */
+    public void showToast(String content)
+    {
+        Toast.makeText(this,content,Toast.LENGTH_LONG).show();
     }
 
 }

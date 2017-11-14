@@ -29,6 +29,7 @@
 
         <EditText
             android:inputType="numberDecimal"
+            android:maxLength="5"
             android:id="@+id/answer_dialog_push_edit"
             android:layout_below="@id/answer_dialog_push_title"
             android:layout_marginTop="9dp"

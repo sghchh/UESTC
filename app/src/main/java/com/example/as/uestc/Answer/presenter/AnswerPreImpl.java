@@ -124,6 +124,10 @@ public class AnswerPreImpl extends AnswerPre {
             @Override
             public void onNext(ScoreRes scoreRes) {
                 ((AnswerActivity)getView()).test.setText(scoreRes.getErrcode());
+                if(scoreRes.getErrcode()=="0")
+                    ((AnswerActivity)getView()).notifyTickViewChange();
+                else
+                    ((AnswerActivity)getView()).showToast(scoreRes.getErrcode()+":"+scoreRes.getErrmsg());
             }
 
             @Override

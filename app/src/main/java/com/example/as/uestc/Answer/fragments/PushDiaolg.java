@@ -74,9 +74,11 @@ public class PushDiaolg extends DialogFragment {
                     Toast.makeText(getContext(),"分值必须在0.0-100.0之间",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    String content=edit.getText().toString();
+                    content=content.contains(".")?content:edit.getText().append(".0").toString();
                     SureDialog dialog=new SureDialog();
                     Bundle bundle=new Bundle();
-                    bundle.putString("score",edit.getText().toString());
+                    bundle.putString("score",content);
                     bundle.putString("classID",ID);
                     bundle.putString("token",TOKEN);
                     dialog.setArguments(bundle);

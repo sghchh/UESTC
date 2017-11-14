@@ -12,10 +12,7 @@ public class MyTextWatcher implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        if (s.toString().startsWith("."))
-        {
-            s.subSequence(0,0);
-        }
+
     }
 
     @Override
@@ -25,14 +22,86 @@ public class MyTextWatcher implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        String content=s.toString();
-        if(content==".")
+        switch (s.length())
         {
-            s.delete(0,content.length()-1);
+            case 0:
+                break;
+            case 1:
+                oneChar(s);
+                break;
+            case 2:
+                twoChar(s);
+                break;
+            case 3:
+                threeChar(s);
+                break;
+            case 4:
+                fourChar(s);
+                break;
+            case 5:
+                fiveChar(s);
+                break;
+            default:
+                fiveChar(s.delete(5,s.length()-1));
+                break;
         }
-        if(content.contains("."))
-        {
+    }
 
+    private void oneChar(Editable s)
+    {
+        if(s.toString().equals("."))
+            s=s.replace(0,1,"");
+
+    }
+
+    private void twoChar(Editable s)
+    {
+        if(!s.toString().endsWith(".")&&s.toString().startsWith("0"))
+            s.delete(0,1);
+    }
+
+    /*
+    处理x.x   x..   xx.   xxx  三种情况
+    其中需要处理的是x.. 和xxx二重情况
+     */
+    private void threeChar(Editable s)
+    {
+        if(s.toString().contains(".."))
+            s.delete(2,3);
+        if(!s.toString().contains("."))
+        {
+            s=Integer.parseInt(s.toString())>100?s.delete(2,3):s;
         }
+    }
+
+    /*
+    处理100.  100x  xx..  xx.x  x.x.  x.xx四种情况
+    需要处理的只有100x  xx..  x.x.  x.xx四种
+     */
+    private void fourChar(Editable s)
+    {
+        //100x
+        if(s.toString().contains("100")&&!s.toString().equals("."))
+            s.replace(s.length()-1,s.length(),".");
+        //xx..
+        if(s.toString().endsWith(".."))
+            s.delete(s.length()-1,s.length());
+        //x.x.
+        if(s.toString().endsWith(".")&&!s.toString().endsWith("..")&&!s.toString().contains("100"))
+            s.delete(s.length()-1,s.length());
+        //x.xx
+        if(s.subSequence(0,2).toString().endsWith(".")&&!s.toString().endsWith("."))
+            s.delete(s.length()-1,s.length());
+    }
+
+    /*
+    处理100.x  100..  xx.x.  xx.xx
+     */
+    private void fiveChar(Editable s)
+    {
+        if(s.toString().contains("100."))
+            s.replace(s.length()-1,s.length(),"0");
+        else
+            s.delete(s.length()-1,s.length());
     }
 }
