@@ -10,5 +10,5 @@ import java.io.Serializable;
 
 public interface EventListener extends Serializable{
     void attachPresenter(BasePresenter basePresenter);
-    void callPresenterToRefreshFragment(String classID);
+    void callPresenterToRefreshFragment(String classID,int position);
 }

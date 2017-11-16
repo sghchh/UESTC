@@ -1,64 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    card:cardCornerRadius="5dp"
+    android:elevation="50dp"
+    android:layout_margin="10dp"
+    android:clipChildren="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false">
-
-    <TextView
-        android:id="@+id/answer_fragment_rank"
-        android:text="答辩序号"
-        android:textSize="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/answer_fragment_class"
-        android:text="学院名"
-        android:gravity="center"
-        android:textSize="25dp"
-        android:layout_below="@id/answer_fragment_rank"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:weightSum="4.5"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/answer_fragment_class_rank"
-        android:text="班级序号"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_below="@id/answer_fragment_class"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/answer_fragment_details"
-        android:text="评分细则"
-        android:textSize="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/answer_fragment_push"
-        android:text="打分"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginBottom="12dp"
-        android:layout_above="@id/answer_fragment_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:clipChildren="false">
 
-    <android.support.v4.view.ViewPager
-        android:layout_centerHorizontal="true"
-        android:id="@+id/answer_fragment_viewpager"
-        android:clipChildren="false"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="9dp"
-        android:layout_below="@id/answer_fragment_class_rank"
-        android:layout_above="@id/answer_fragment_push"
-        android:layout_width="260dp"
-        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
 
-    </android.support.v4.view.ViewPager>
+            <TextView
+                android:id="@+id/answer_fragment_rank"
+                android:text="号"
+                android:textSize="16dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginTop="6dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/answer_fragment_class"
+                android:text="学院名"
+                android:gravity="center"
+                android:textSize="23dp"
+                android:layout_below="@id/answer_fragment_rank"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/answer_fragment_class_rank"
+                android:text="班级序号"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:layout_below="@id/answer_fragment_class"
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_weight="2.5"
+            android:orientation="horizontal"
+            android:weightSum="7.6"
+            android:clipChildren="false"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+            <android.support.v4.view.ViewPager
+                android:layout_weight="5.6"
+                android:id="@+id/answer_fragment_viewpager"
+                android:clipChildren="false"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </android.support.v4.view.ViewPager>
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp">
+
+            <Button
+                android:id="@+id/answer_fragment_push"
+                android:background="@drawable/shape_not"
+                android:text="打分"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_width="136dp"
+                android:layout_height="34dp" />
+            <TextView
+                android:id="@+id/answer_fragment_details"
+                android:text="评分细则"
+                android:textSize="15dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/answer_fragment_push"
+                android:layout_marginBottom="7dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

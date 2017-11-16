@@ -9,13 +9,13 @@ import com.example.as.uestc.Answer.beans.ScorePost;
 
 public class AnswerListenerImpl extends AnswerListener {
 
-    public void callPresenterToPostScore(ScorePost data)
+    public void callPresenterToPostScore(ScorePost data,int position)
     {
-        ((AnswerPreImpl)getPresenter()).postScore(data);
+        ((AnswerPreImpl)getPresenter()).postScore(data,position);
     }
 
     @Override
-    public void callPresenterToRefreshFragment(String classID) {
-        ((AnswerPreImpl)getPresenter()).refreshFragment(classID);
+    public void callPresenterToRefreshFragment(String classID,int position) {
+        ((AnswerPreImpl)getPresenter()).refreshFragment(classID,position);
     }
 }

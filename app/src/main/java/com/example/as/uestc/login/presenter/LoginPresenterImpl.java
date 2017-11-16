@@ -34,7 +34,10 @@ public class LoginPresenterImpl implements LoginPresenter {
 
             @Override
             public void onNext(Login login) {
-                ((LoginActivity)getView()).saveLogin(login);
+                if(login.getErrcode()==0)
+                    ((LoginActivity)getView()).finishLogin(login);
+                else
+                    ((LoginActivity)getView()).showToast(login);
                 Log.d("", "onNext:======================== "+login.getToken());
             }
 
@@ -45,7 +48,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
             @Override
             public void onComplete() {
-                ((LoginActivity)getView()).onFinish();
+                disposable.dispose();
             }
         };
     }

@@ -8,5 +8,5 @@ import com.example.as.uestc.login.bean.Login;
  */
 
 public interface LoginView extends MVPView {
-    void saveLogin(Login login);
+    void finishLogin(Login login);
 }

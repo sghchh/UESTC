@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.as.uestc.Answer.TickView.TickView;
+import com.example.as.uestc.Answer.CircleImageView;
 import com.example.as.uestc.Answer.beans.ClassList;
 import com.example.as.uestc.Answer.beans.Info;
 import com.example.as.uestc.R;
@@ -47,8 +47,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         holder.rank.setOnClickListener(this);
         holder.imageView.setTag(position);
         holder.imageView.setOnClickListener(this);
-        holder.details.setTag(position);
-        holder.details.setOnClickListener(this);
+        //holder.details.setTag(position);
+        //holder.details.setOnClickListener(this);
     }
 
     @Override
@@ -70,16 +70,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
 
         private ImageView imageView;
         private TextView rank,classes,colloge;
-        private TextView details;
-        private TickView tickView;
+        //private TextView details;
+        //private TickView tickView;
+        private CircleImageView logo;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView=(ImageView)itemView.findViewById(R.id.recycler_item_image);
             rank=(TextView)itemView.findViewById(R.id.recycler_item_rank);
             classes=(TextView)itemView.findViewById(R.id.recycler_item_class);
             colloge=(TextView)itemView.findViewById(R.id.recycler_item_college);
-            details=(TextView) itemView.findViewById(R.id.recycler_item_detail);
-            tickView=(TickView)itemView.findViewById(R.id.recycler_item_tick);
+            //details=(TextView) itemView.findViewById(R.id.recycler_item_detail);
+            //tickView=(TickView)itemView.findViewById(R.id.recycler_item_tick);
+            logo=(CircleImageView)itemView.findViewById(R.id.recycler_item_logo);
         }
 
         private void setContent(ClassList list,int position)

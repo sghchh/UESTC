@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.as.uestc.Answer.view.AnswerActivity;
 import com.example.as.uestc.R;
@@ -19,11 +20,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private Login login;
     private EditText username,pass;
-    private TextView signin,back;
+    private Button signin;
     private LoginPresenterImpl presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFinishOnTouchOutside(false);
         setContentView(R.layout.activity_login);
         presenter=new LoginPresenterImpl();
         presenter.attach(this,new LoginModelImpl());
@@ -34,8 +36,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     {
         username=(EditText)findViewById(R.id.login_username);
         pass=(EditText)findViewById(R.id.login_passwords);
-        back=(TextView)findViewById(R.id.login_back);
-        signin=(TextView)findViewById(R.id.login_signin);
+        signin=(Button) findViewById(R.id.login_signin);
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,24 +44,28 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 PostUser user=new PostUser(username.getText().toString(),pass.getText().toString());
                 //presenter.loginV(user,back);
                 presenter.login(user);
-                //presenter.login(user);
-                //Intent intent=new Intent(LoginActivity.this,AnswerActivity.class);
-                //intent.putExtra("token",login.getToken());
-                //startActivity(intent);
-                //finish();
             }
         });
     }
     @Override
-    public void saveLogin(Login login) {
-        this.login=login;
+    public void finishLogin(Login login) {
+        onFinish(login);
     }
 
-    public void onFinish()
+    public void onFinish(Login login)
     {
         Intent intent=new Intent(LoginActivity.this,AnswerActivity.class);
         intent.putExtra("token",login.getToken());
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * 登录状态码返回不是0的时候显示toast提示
+     * @param login
+     */
+    public void showToast(Login login)
+    {
+        Toast.makeText(this,login.getErrcode()+":"+login.getErrmsg(),Toast.LENGTH_SHORT).show();
     }
 }

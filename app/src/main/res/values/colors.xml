@@ -6,4 +6,16 @@
     <color name="tick_yellow">#f5d747</color>
     <color name="tick_gray">#eaeaea</color>
     <color name="tick_white">#fff</color>
+    <color name="background_hint">#ff999999</color>
+    <color name="text_color_gray">#aaffffff</color>
+    <color name="text_color_white">#dddddddd</color>
+    <color name="shape_start">#FFff6655</color>
+    <color name="shape_center">#FFff1199</color>
+    <color name="shape_end">#ffbb00ff</color>
+    <color name="shape_gray">#99ffffff</color>
+    <color name="background_star">#ffaaaadd</color>
+    <color name="background_center">#ff8899bb</color>
+    <color name="background_end">#ff6665bb</color>
+    <color name="background_p">#ff5656ff</color>
+    <color name="background_o">#ff3224ff</color>
 </resources>

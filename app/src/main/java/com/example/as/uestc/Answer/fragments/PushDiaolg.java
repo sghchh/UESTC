@@ -76,6 +76,7 @@ public class PushDiaolg extends DialogFragment {
                 else {
                     String content=edit.getText().toString();
                     content=content.contains(".")?content:edit.getText().append(".0").toString();
+                    content=content.endsWith(".")?edit.getText().append("0").toString():content;
                     SureDialog dialog=new SureDialog();
                     Bundle bundle=new Bundle();
                     bundle.putString("score",content);

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <!--最外层圆圈-->
+        <shape android:shape="oval">
+            <solid android:color="#10FFFFFF" />
+            <size
+                android:width="20dp"
+                android:height="20dp" />
+            <stroke
+                android:color="#10B8B8B8"
+                android:dashWidth="1dp" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="16dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp">
+        <!--中间层圆圈-->
+        <shape android:shape="oval">
+            <solid android:color="#1CFFFFFF" />
+            <stroke
+                android:color="#1CB8B8B8"
+                android:dashWidth="1dp" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="6dp"
+        android:left="6dp"
+        android:right="6dp"
+        android:top="6dp">
+
+        <!--中心圆圈-->
+        <shape android:shape="oval">
+            <solid android:color="#2CFFFFFF" />
+            <stroke
+                android:color="#2CB8B8B8"
+                android:dashWidth="1dp" />
+        </shape>
+    </item>
+</layer-list>

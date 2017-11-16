@@ -50,7 +50,7 @@ public class MyTextWatcher implements TextWatcher {
     private void oneChar(Editable s)
     {
         if(s.toString().equals("."))
-            s=s.replace(0,1,"");
+            s.delete(0,1);
 
     }
 
@@ -81,7 +81,7 @@ public class MyTextWatcher implements TextWatcher {
     private void fourChar(Editable s)
     {
         //100x
-        if(s.toString().contains("100")&&!s.toString().equals("."))
+        if(s.toString().contains("100")&&!s.toString().endsWith("."))
             s.replace(s.length()-1,s.length(),".");
         //xx..
         if(s.toString().endsWith(".."))
@@ -99,9 +99,9 @@ public class MyTextWatcher implements TextWatcher {
      */
     private void fiveChar(Editable s)
     {
-        if(s.toString().contains("100."))
+        if(s.toString().contains("100.")&&!s.toString().endsWith("0"))
             s.replace(s.length()-1,s.length(),"0");
-        else
+        if(!s.toString().contains("100."))
             s.delete(s.length()-1,s.length());
     }
 }

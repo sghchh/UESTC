@@ -18,5 +18,5 @@ public interface BaseView extends MVPView {
 
     public abstract void initView(ClassList classList);
     //public abstract void pushDataToInternet();
-    void initFragment(CurrentClass currentClass);
+    void initFragment(CurrentClass currentClass,int position);
 }

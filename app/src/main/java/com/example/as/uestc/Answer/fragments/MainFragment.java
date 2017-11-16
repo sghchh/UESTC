@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.as.uestc.Answer.MyTransformation;
+import com.example.as.uestc.Answer.ZoomOutPageTransformer;
 import com.example.as.uestc.Answer.beans.CurrentClass;
 import com.example.as.uestc.Answer.beans.ScorePost;
 import com.example.as.uestc.Answer.presenter.AnswerListenerImpl;
@@ -37,6 +37,7 @@ public class MainFragment extends Fragment {
     private ViewPager viewPager;
     private List<View> views=new ArrayList<>();
     private CurrentClass currentClass;
+    private int POSITION;
 
     public MainFragment()
     {
@@ -61,6 +62,7 @@ public class MainFragment extends Fragment {
         listener=(AnswerListenerImpl)getArguments().getSerializable("listener");
         currentClass=(CurrentClass)getArguments().getSerializable("currentclass");
         ID=currentClass.getClassID();
+        POSITION=getArguments().getInt("position");
     }
 
     @Nullable
@@ -85,7 +87,7 @@ public class MainFragment extends Fragment {
         //back=(TextView)view.findViewById(R.id.answer_fragment_back);
         classRank=(TextView)view.findViewById(R.id.answer_fragment_class_rank);
         classer=(TextView)view.findViewById(R.id.answer_fragment_class);
-        rank=(TextView)view.findViewById(R.id.answer_fragment_rank);
+        rank=(TextView) view.findViewById(R.id.answer_fragment_rank);
         details=(TextView)view.findViewById(R.id.answer_fragment_details);
         //description=(TextView)view.findViewById(R.id.answer_fragment_description);
         push=(TextView)view.findViewById(R.id.answer_fragment_push);
@@ -94,15 +96,13 @@ public class MainFragment extends Fragment {
         {
             classRank.setText(currentClass.getClassID());
             classer.setText(currentClass.getAcademy());
-            rank.setText(currentClass.getOrderNum()+"");
+            rank.setText("答辩序号:"+currentClass.getOrderNum());
         }
         viewPager=(ViewPager)view.findViewById(R.id.answer_fragment_viewpager);
         MyPagerAdapter adapter=new MyPagerAdapter(views);
         viewPager.setAdapter(adapter);
-        viewPager.setPageMargin(20);
-        viewPager.setOffscreenPageLimit(3);
-        MyTransformation transformation=new MyTransformation();
-        //DepthPageTransformer transformation=new DepthPageTransformer();
+        viewPager.setOffscreenPageLimit(2);
+        ZoomOutPageTransformer transformation=new ZoomOutPageTransformer();
         viewPager.setPageTransformer(true,transformation);
     }
 
@@ -131,6 +131,12 @@ public class MainFragment extends Fragment {
         });
     }
 
+    public void resetDrawable()
+    {
+        push.setBackground(getActivity().getDrawable(R.drawable.shape_has));
+        push.setClickable(false);
+        push.setTextColor(getActivity().getColor(R.color.text_color_white));
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode== Activity.RESULT_OK)
@@ -139,7 +145,7 @@ public class MainFragment extends Fragment {
             String token=data.getExtras().getString("token");
             String id=data.getExtras().getString("classID");
             String score=data.getExtras().getString("score");
-            ((AnswerActivity)getActivity()).postScore(new ScorePost(id,score,token));
+            ((AnswerActivity)getActivity()).postScore(new ScorePost(id,score,token),POSITION);
         }
     }
 }

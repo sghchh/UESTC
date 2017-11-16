@@ -50,9 +50,45 @@ public class AnswerPreImpl extends AnswerPre {
 
             @Override
             public void onNext(ClassList classList) {
-                Log.d("onNext", "onNext: +++++++++++++++"+(classList ==null));
                 instance.getView().initView(classList);
-                refreshFragment(classList.getInfo().get(0).getClassID());
+                refreshFragment(classList.getInfo().get(0).getClassID(),0);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("", "onComplete: ++++++++++++++++++++++");
+                disposable.dispose();
+            }
+        };
+        ((AnswerModelImpl)instance.getModel()).getCurrentClass()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    /**
+     * 1.从网络获取数据
+     * 2.调用view的initView初始化界面的RecyclerView
+     * 3.默认加载班级列表的第一个班级的数据来进行数据请求
+     */
+    public void loadInitialDataWithoutFragment()
+    {
+        observer=new Observer<ClassList>() {
+            Disposable disposable;
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable=d;
+            }
+
+            @Override
+            public void onNext(ClassList classList) {
+                instance.getView().initView(classList);
+                //refreshFragment(classList.getInfo().get(0).getClassID());
             }
 
             @Override
@@ -77,7 +113,7 @@ public class AnswerPreImpl extends AnswerPre {
      * 2.得到数据后调用View的initFragment方法初始化fragment
      * @param classID 班级id
      */
-    public void refreshFragment(String classID)
+    public void refreshFragment(String classID,final int position)
     {
         currentObserver=new Observer<CurrentClass>() {
             Disposable disposable;
@@ -88,7 +124,7 @@ public class AnswerPreImpl extends AnswerPre {
 
             @Override
             public void onNext(CurrentClass currentClass) {
-                getView().initFragment(currentClass);
+                getView().initFragment(currentClass,position);
             }
 
             @Override
@@ -112,7 +148,7 @@ public class AnswerPreImpl extends AnswerPre {
      * 老师打分的时候提交数据
      * @param scorePost
      */
-    public void postScore(ScorePost scorePost)
+    public void postScore(ScorePost scorePost, final int position)
     {
         postResObserver=new Observer<ScoreRes>() {
             Disposable disposable;
@@ -123,11 +159,12 @@ public class AnswerPreImpl extends AnswerPre {
 
             @Override
             public void onNext(ScoreRes scoreRes) {
-                ((AnswerActivity)getView()).test.setText(scoreRes.getErrcode());
+                //((AnswerActivity)getView()).test.setText(scoreRes.getErrcode());
                 if(scoreRes.getErrcode()=="0")
-                    ((AnswerActivity)getView()).notifyTickViewChange();
+                    ((AnswerActivity)getView()).notifyTickViewChange(position);
                 else
                     ((AnswerActivity)getView()).showToast(scoreRes.getErrcode()+":"+scoreRes.getErrmsg());
+                ((AnswerActivity)getView()).notifyTickViewChange(position);
             }
 
             @Override

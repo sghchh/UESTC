@@ -3,35 +3,40 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="11dp"
-    android:layout_width="240dp"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="116dp">
 
         <TextView
             android:id="@+id/answer_dialog_sure_title"
             android:text="确定吗？"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="19dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/answer_dialog_sure_positive"
-            android:background="#00000000"
+            android:background="@drawable/shape_rectangle"
             android:layout_below="@id/answer_dialog_sure_title"
             android:text="确定"
+            android:textSize="19sp"
             android:layout_marginTop="13dp"
             android:layout_marginStart="43dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:background="#00000000"
+            android:background="@drawable/shape_recv_gray"
             android:id="@+id/answer_dialog_sure_nagetive"
             android:layout_below="@id/answer_dialog_sure_title"
             android:text="再想想"
+            android:textColor="@color/text_color_white"
+            android:textSize="19sp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="43dp"
