@@ -3,9 +3,11 @@ package com.example.as.uestc.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.as.uestc.Answer.view.AnswerActivity;
@@ -21,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private Login login;
     private EditText username,pass;
     private Button signin;
+    private ImageView visibility;
     private LoginPresenterImpl presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,27 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 presenter.login(user);
             }
         });
+
+        visibility=(ImageView) findViewById(R.id.login_visibility);
+        visibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag=v.getTag().toString();
+                if(tag=="invisibility")
+                {
+                    v.setTag("visibility");
+                    v.setBackground(getDrawable(R.drawable.visibility));
+                    pass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
+                else
+                {
+                    v.setTag("invisibility");
+                    v.setBackground(getDrawable(R.drawable.invisibility));
+                    pass.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+
+            }
+        });
     }
     @Override
     public void finishLogin(Login login) {
@@ -55,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void onFinish(Login login)
     {
         Intent intent=new Intent(LoginActivity.this,AnswerActivity.class);
+        intent.putExtra("username",login.getName());
         intent.putExtra("token",login.getToken());
         startActivity(intent);
         finish();

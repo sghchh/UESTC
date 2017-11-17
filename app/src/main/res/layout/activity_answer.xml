@@ -41,7 +41,7 @@
     <RelativeLayout
         android:layout_gravity="start"
         android:background="#FFFF0000"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
         <com.example.as.uestc.Answer.CircleImageView
@@ -52,15 +52,28 @@
             android:id="@+id/answer_activity_head"
             android:layout_width="42dp"
             android:layout_height="42dp" />
-        <!--
+
         <TextView
-            android:id="@+id/test"
+            android:id="@+id/answer_activity_username"
             android:layout_below="@id/answer_activity_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/answer_activity_head"
-            android:layout_alignStart="@id/answer_activity_head"
-            android:text="ceshi"/>
-            -->
+            android:minWidth="50dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:text="name"/>
+
+        <Button
+            android:layout_below="@id/answer_activity_username"
+            android:layout_marginTop="8dp"
+            android:id="@+id/answer_activity_switch"
+            android:minWidth="50dp"
+            android:textSize="10sp"
+            android:text="切换账号"
+            android:layout_width="wrap_content"
+            android:maxHeight="40dp"
+            android:layout_height="36dp" />
+
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

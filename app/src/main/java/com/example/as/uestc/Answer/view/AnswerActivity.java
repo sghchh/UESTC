@@ -2,12 +2,15 @@ package com.example.as.uestc.Answer.view;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.as.uestc.Answer.CircleImageView;
@@ -25,13 +28,15 @@ import com.example.as.uestc.login.LoginActivity;
 public class AnswerActivity extends AnswerView {
 
     private DrawerLayout drawerLayout;
-    //public TextView test;
+    private TextView username;
+    private Button switchUser;
     private String TOKEN;
     private AnswerView answerView;
     private AnswerPreImpl pre;
     private RecyclerView recycler;
     private ImageView head;
     private MainFragment fragment;
+    private SharedPreferences preferences;
 
     private MyAdapter.RecyclerClickListener listener;
 
@@ -40,13 +45,32 @@ public class AnswerActivity extends AnswerView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
 
+        preferences=getPreferences(MODE_PRIVATE);
         answerView=(AnswerView) this;
-        TOKEN=getIntent().getStringExtra("token");
+
+        /*
+        如果SharedPreferences中的token数据为空，说明是第一次登陆
+        则启动loginActivity；如果不为空，就跳过loginActivity界面，直接启动主界面
+         */
+        TOKEN=preferences.getString("token",null);
+
+        /*
+        如果是第一次登陆，保存user信息到本地
+         */
+        if(getIntent().getStringExtra("token")!=null)
+        {
+            TOKEN=getIntent().getStringExtra("token");
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putString("username",getIntent().getStringExtra("username"));
+            editor.putString("token",getIntent().getStringExtra("token"));
+            editor.apply();
+        }
         setEventListener(new AnswerListenerImpl());
         pre=new AnswerPreImpl(answerView,new AnswerModelImpl());
-        Intent intent=new Intent(this, LoginActivity.class);
+
         if(TOKEN==null)
         {
+            Intent intent=new Intent(this, LoginActivity.class);
             pre.loadInitialDataWithoutFragment();
             startActivity(intent);
         }
@@ -58,11 +82,12 @@ public class AnswerActivity extends AnswerView {
     @Override
     public void initView(final ClassList classList) {
         drawerLayout=(DrawerLayout)findViewById(R.id.answer_acitvity_drawer);
-        //drawerLayout.openDrawer(Gravity.LEFT);
 
-        //test=(TextView)findViewById(R.id.test);
-        //test.setText(TOKEN);
+        username=(TextView)findViewById(R.id.answer_activity_username);
+        switchUser=(Button)findViewById(R.id.answer_activity_switch);
         head=(ImageView)findViewById(R.id.answer_activity_head);
+
+        username.setText(preferences.getString("username","未登录"));
         recycler=(RecyclerView)findViewById(R.id.answer_acitvity_recycler);
         LinearLayoutManager line=new LinearLayoutManager(this);
         line.setOrientation(LinearLayoutManager.VERTICAL);
@@ -76,11 +101,24 @@ public class AnswerActivity extends AnswerView {
                 getListener().callPresenterToRefreshFragment(classList.getInfo().get(position).getClassID(),position);
             }
         };
+
+        switchUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(AnswerActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         myAdapter.setMyRecyclerListener(listener);
 
     }
 
 
+    /**
+     * 初始化Fragment的方法
+     * @param currentClass Fragment中需要的数据，有网络访问得到
+     * @param position 当前fragment显示的是边界列表中的哪一个班级的信息
+     */
     @Override
     public void initFragment(CurrentClass currentClass,int position) {
 
@@ -100,7 +138,8 @@ public class AnswerActivity extends AnswerView {
 
     /**
      * 处理Fragment传来的提交打分的事务
-     * @param scorePost
+     * @param scorePost 打分需要封装的数据
+     * @param position 回传给Activity的Fragment所关联的RecyclerView中的哪一个班级
      */
     public void postScore(ScorePost scorePost,int position)
     {
@@ -110,12 +149,12 @@ public class AnswerActivity extends AnswerView {
     /**
      * 通知TickView改变状态
      * 当打分成功的时候在AnswerPreImpl的postScore方法中被调用
+     * @param position 改变RecyclerView中哪一个班级的图标的状态，由Fragment回传过来
      */
     public void notifyTickViewChange(int position)
     {
         fragment.resetDrawable();
         View view=recycler.getChildAt(position);
-        //((TickView)view.findViewById(R.id.recycler_item_tick)).setChecked(true);
         ((CircleImageView)view.findViewById(R.id.recycler_item_logo)).setBackground(getDrawable(R.drawable.has));
     }
 
