@@ -132,7 +132,7 @@ public class AnswerListenerImpl extends AnswerListener {
 }
 ```  
 Listener的设计和MVP很像，也是根据需求得到接口，在逐步加工得到实现类。  
-## 2. 监听EditText内容的变化限定只能输入一位小数  
+## 3. 监听EditText内容的变化限定只能输入一位小数  
 由于后台需要上传的打分只能是一为小数，但是用户可能输入的字符是不一定的，单单是依靠EditText的属性inputType是无法满足需求的，所以就需要设置监听来进行约束。好在Android内部有一个TextWatcher专门用来实现这一功能，这是一个接口，根据需求实现功能需要重写三个方法：  
 ```  
 public class MyTextWatcher implements TextWatcher {
@@ -232,9 +232,9 @@ private void oneChar(Editable s)
             s.delete(s.length()-1,s.length());
     }
 ```
-## 3. 类似于QQ的保存登录状态  
+## 4. 类似于QQ的保存登录状态  
 之前没有接触过这种需要客户提交登录到后台的处理，接触过以后，对这种看起来复杂的逻辑有了更加清晰的认识，原来是如此的简单：  
-### 3.1 登录  
+### 4.1 登录  
 登录需要我们提交用户名和密码，如果登录成功的话，返回的是一个token；其实重要的就是这个token字符串，一般这种需要登录的东西，后续的网络数据都需要根据你的身份（实际上这个token就唯一标记了一个用户）来进行请求，所以只要我们在第一次登录成功后保存了这个token，之后登录就可以跳过登录界面的输入密码和用户名的过程。通常保存这个token是用的SharedPreferences实现的：  
 ```  
   /*
