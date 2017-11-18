@@ -44,9 +44,9 @@ public class RetrofitManager {
      * 得到当前班级的信息
      * @return
      */
-    public Observable<ClassList> getCurrentClass()
+    public Observable<ClassList> getCurrentClass(String token)
     {
-        return RETROFIT.create(NetWorkService.class).getCurrentClass();
+        return RETROFIT.create(NetWorkService.class).getCurrentClass(token);
     }
 
     public Observable<CurrentClass> getCurrent(String classID)

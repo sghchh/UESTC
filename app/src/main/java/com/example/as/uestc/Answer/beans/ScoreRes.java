@@ -8,10 +8,10 @@ import java.io.Serializable;
  */
 
 public class ScoreRes implements Serializable{
-    private String errcode;
+    private int errcode;
     private String errmsg;
 
-    public String getErrcode()
+    public int getErrcode()
     {
         return this.errcode;
     }

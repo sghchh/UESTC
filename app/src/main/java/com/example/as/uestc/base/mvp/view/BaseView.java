@@ -12,11 +12,6 @@ public interface BaseView extends MVPView {
 
     EventListener getListener();
     void setEventListener(EventListener eventListener);
-    //void attachPresenter(BasePresenter basePresenter);
-
-    //public void detachPrenster();
-
-    public abstract void initView(ClassList classList);
-    //public abstract void pushDataToInternet();
-    void initFragment(CurrentClass currentClass,int position);
+    void initView(ClassList classList);
+    void initFragment(CurrentClass currentClass,int position,int state);
 }

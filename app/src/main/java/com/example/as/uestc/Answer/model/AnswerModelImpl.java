@@ -19,9 +19,9 @@ public class AnswerModelImpl extends AnswerModel {
     {
         this.manager=RetrofitManager.getInstance();
     }
-    public Observable<ClassList> getCurrentClass()
+    public Observable<ClassList> getCurrentClass(String token)
     {
-        return this.manager.getCurrentClass();
+        return this.manager.getCurrentClass(token);
     }
 
     public Observable<CurrentClass> getCurrent(String classID)

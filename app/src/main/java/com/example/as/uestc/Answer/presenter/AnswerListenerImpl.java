@@ -15,7 +15,7 @@ public class AnswerListenerImpl extends AnswerListener {
     }
 
     @Override
-    public void callPresenterToRefreshFragment(String classID,int position) {
-        ((AnswerPreImpl)getPresenter()).refreshFragment(classID,position);
+    public void callPresenterToRefreshFragment(String classID,int position,int state) {
+        ((AnswerPreImpl)getPresenter()).refreshFragment(classID,position,state);
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UESTC</string>
+    <string name="app_name">邦清答辩</string>
     <string name="title_activity_login2">Sign in</string>
 
     <!-- Strings related to login -->

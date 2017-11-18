@@ -12,8 +12,12 @@ public class Info implements Serializable{
         private String classID;
         private String academy;
         private String cover;
+        private int havenVote;
         //private List<String> images;
 
+        public int getHavenVote(){
+                return this.havenVote;
+        }
         public String getClassID()
         {
             return this.classID;

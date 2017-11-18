@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.as.uestc.Answer.CircleImageView;
 import com.example.as.uestc.Answer.beans.ClassList;
 import com.example.as.uestc.Answer.beans.Info;
@@ -39,13 +40,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setContent(list,position);
-        holder.colloge.setTag(position);
+        //将position和state合封装成一个字符串
+        holder.colloge.setTag(position+""+holder.state);
         holder.colloge.setOnClickListener(this);
-        holder.classes.setTag(position);
+        holder.classes.setTag(position+""+holder.state);
         holder.classes.setOnClickListener(this);
-        holder.rank.setTag(position);
-        holder.rank.setOnClickListener(this);
-        holder.imageView.setTag(position);
+        //holder.rank.setTag(position+""+holder.state);
+        //holder.rank.setOnClickListener(this);
+        holder.imageView.setTag(position+""+holder.state);
         holder.imageView.setOnClickListener(this);
         //holder.details.setTag(position);
         //holder.details.setOnClickListener(this);
@@ -59,7 +61,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     @Override
     public void onClick(View v) {
         if (listener!=null)
-            listener.recyclerClick((int)v.getTag());
+        {
+            /*
+            将position和state从字符串中解析出来
+             */
+            String message=v.getTag().toString();
+            int state=message.endsWith("0")?0:1;
+            int position=Integer.parseInt(message.substring(0,message.length()-1));
+
+            listener.recyclerClick(position,state);
+        }
     }
 
     public ClassList getList()
@@ -68,6 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     }
     class ViewHolder extends RecyclerView.ViewHolder{
 
+        private int state;
         private ImageView imageView;
         private TextView rank,classes,colloge;
         //private TextView details;
@@ -76,7 +88,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         public ViewHolder(View itemView) {
             super(itemView);
             imageView=(ImageView)itemView.findViewById(R.id.recycler_item_image);
-            rank=(TextView)itemView.findViewById(R.id.recycler_item_rank);
+            //rank=(TextView)itemView.findViewById(R.id.recycler_item_rank);
             classes=(TextView)itemView.findViewById(R.id.recycler_item_class);
             colloge=(TextView)itemView.findViewById(R.id.recycler_item_college);
             //details=(TextView) itemView.findViewById(R.id.recycler_item_detail);
@@ -87,10 +99,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         private void setContent(ClassList list,int position)
         {
             Info info=list.getInfo().get(position);
-            //Glide.with(activity).load(info.getCover()).into(imageView);
-            rank.setText(info.getOrderNum());
+            state=info.getHavenVote();
+            Glide.with(activity).load(info.getCover()).into(imageView);
+            //rank.setText(info.getOrderNum());
             classes.setText(info.getClassID());
-            colloge.setText(info.getAcademy());
+            colloge.setText(info.getCover());
+            if(info.getHavenVote()==0)
+                logo.setBackground(activity.getDrawable(R.drawable.not));
+            else
+                logo.setBackground(activity.getDrawable(R.drawable.has));
         }
     }
 
@@ -99,6 +116,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         this.listener=listener;
     }
     public interface RecyclerClickListener{
-        void recyclerClick(int position);
+        void recyclerClick(int position,int state);
     }
 }

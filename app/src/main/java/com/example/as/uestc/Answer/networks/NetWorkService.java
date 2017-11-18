@@ -15,8 +15,9 @@ import retrofit2.http.Path;
  * Created by as on 2017/11/5.
  */
  interface NetWorkService {
-    @GET("main/classList/")
-    Observable<ClassList> getCurrentClass();
+    @POST("main/classList/")
+    @FormUrlEncoded
+    Observable<ClassList> getCurrentClass(@Field("data")String token);
 
     @GET("main/classInfo/{id}/")
     Observable<CurrentClass> getCurrent(@Path("id")String classID);

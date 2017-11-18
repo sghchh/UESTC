@@ -3,9 +3,11 @@ package com.example.as.uestc.Answer.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,7 @@ public class MainFragment extends Fragment {
     private CurrentClass currentClass;
     private int POSITION;
 
+    private int STATE;
     public MainFragment()
     {
         super();
@@ -63,6 +66,7 @@ public class MainFragment extends Fragment {
         currentClass=(CurrentClass)getArguments().getSerializable("currentclass");
         ID=currentClass.getClassID();
         POSITION=getArguments().getInt("position");
+        STATE=getArguments().getInt("state");
     }
 
     @Nullable
@@ -75,6 +79,7 @@ public class MainFragment extends Fragment {
             View view1=inflater.inflate(R.layout.answer_fragment_pager_item,null,false);
             ImageView imageView=(ImageView) view1.findViewById(R.id.answer_fragment_pager_item_imageview);
             Glide.with(getActivity()).load(currentClass.getImages().get(i)).into(imageView);
+            Log.d("", "onCreateView: "+currentClass.getImages().get(i));
             views.add(view1);
         }
         init(view);
@@ -104,6 +109,16 @@ public class MainFragment extends Fragment {
         viewPager.setOffscreenPageLimit(2);
         ZoomOutPageTransformer transformation=new ZoomOutPageTransformer();
         viewPager.setPageTransformer(true,transformation);
+
+        /*
+        如果已经投过票了，就换成已投的图标，并且不可点击
+         */
+        if(STATE==1)
+        {
+            push.setBackground(getActivity().getDrawable(R.drawable.shape_has));
+            push.setTextColor(Color.parseColor("#dddddddd"));
+            push.setClickable(false);
+        }
     }
 
     private void addListeners()
@@ -131,11 +146,14 @@ public class MainFragment extends Fragment {
         });
     }
 
+    /**
+     * “打分”按钮点击打分成功后，状态改变
+     */
     public void resetDrawable()
     {
         push.setBackground(getActivity().getDrawable(R.drawable.shape_has));
         push.setClickable(false);
-        push.setTextColor(getActivity().getColor(R.color.text_color_white));
+        push.setTextColor(Color.parseColor("#dddddddd"));
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

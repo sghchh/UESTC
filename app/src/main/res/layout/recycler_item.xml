@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="25dp"/>
+            <!--
             <TextView
                 android:id="@+id/recycler_item_rank"
                 android:layout_alignParentBottom="true"
@@ -43,11 +44,12 @@
                 android:textColor="#FFFFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+                -->
             <TextView
                 android:id="@+id/recycler_item_class"
-                android:layout_toEndOf="@id/recycler_item_rank"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
+                android:layout_marginStart="22dp"
                 android:text="班号："
                 android:textSize="10dp"
                 android:textColor="#FFFFFFFF"

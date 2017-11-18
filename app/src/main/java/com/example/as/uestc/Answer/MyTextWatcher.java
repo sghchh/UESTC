@@ -8,8 +8,6 @@ import android.text.TextWatcher;
  */
 
 public class MyTextWatcher implements TextWatcher {
-
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

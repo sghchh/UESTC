@@ -5,6 +5,4 @@ package com.example.as.uestc.base.mvp.model;
  */
 
 public interface BaseModel extends MVPModel {
-
-
 }

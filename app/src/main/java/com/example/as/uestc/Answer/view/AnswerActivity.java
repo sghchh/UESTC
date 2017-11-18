@@ -28,7 +28,7 @@ import com.example.as.uestc.login.LoginActivity;
 public class AnswerActivity extends AnswerView {
 
     private DrawerLayout drawerLayout;
-    private TextView username;
+    public TextView username;
     private Button switchUser;
     private String TOKEN;
     private AnswerView answerView;
@@ -75,7 +75,7 @@ public class AnswerActivity extends AnswerView {
             startActivity(intent);
         }
         else
-            pre.loadInitialData();
+            pre.loadInitialData(TOKEN);
 
     }
 
@@ -97,8 +97,8 @@ public class AnswerActivity extends AnswerView {
 
         listener=new MyAdapter.RecyclerClickListener() {
             @Override
-            public void recyclerClick(int position) {
-                getListener().callPresenterToRefreshFragment(classList.getInfo().get(position).getClassID(),position);
+            public void recyclerClick(int position,int state) {
+                getListener().callPresenterToRefreshFragment(classList.getInfo().get(position).getClassID(),position,classList.getInfo().get(position).getHavenVote());
             }
         };
 
@@ -117,16 +117,18 @@ public class AnswerActivity extends AnswerView {
     /**
      * 初始化Fragment的方法
      * @param currentClass Fragment中需要的数据，有网络访问得到
-     * @param position 当前fragment显示的是边界列表中的哪一个班级的信息
+     * @param position 当前fragment显示的是班级列表中的哪一个班级的信息
+     * @param state 当前Fragment对应班级列表的position位置的班级是否被打过分，0为否，1为是；如果为1的话，则Fragment中的“打分”按钮不可点
      */
     @Override
-    public void initFragment(CurrentClass currentClass,int position) {
+    public void initFragment(CurrentClass currentClass,int position,int state) {
 
         Bundle bundle=new Bundle();
         bundle.putInt("position",position);
         bundle.putSerializable("listener",getListener());
         bundle.putSerializable("currentclass",currentClass);
         bundle.putString("token",TOKEN);
+        bundle.putInt("state",state);
         fragment=new MainFragment();
         fragment.setArguments(bundle);
 

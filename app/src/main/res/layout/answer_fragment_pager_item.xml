@@ -13,6 +13,7 @@
         <ImageView
             android:id="@+id/answer_fragment_pager_item_imageview"
             android:background="@mipmap/school"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v7.widget.CardView>

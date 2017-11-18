@@ -6,10 +6,12 @@ import com.example.as.uestc.Answer.beans.ClassList;
 import com.example.as.uestc.Answer.beans.CurrentClass;
 import com.example.as.uestc.Answer.beans.ScorePost;
 import com.example.as.uestc.Answer.beans.ScoreRes;
+import com.example.as.uestc.Answer.beans.Token;
 import com.example.as.uestc.Answer.model.AnswerModelImpl;
 import com.example.as.uestc.Answer.view.AnswerActivity;
 import com.example.as.uestc.base.mvp.model.BaseModel;
 import com.example.as.uestc.base.mvp.view.BaseView;
+import com.google.gson.Gson;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,7 +41,7 @@ public class AnswerPreImpl extends AnswerPre {
      * 3.默认加载班级列表的第一个班级的数据来进行数据请求
      * 4.调用reflashFragment方法加载fragment来展示当前的班级
      */
-    public void loadInitialData()
+    public void loadInitialData(String token)
     {
         observer=new Observer<ClassList>() {
             Disposable disposable;
@@ -51,7 +53,8 @@ public class AnswerPreImpl extends AnswerPre {
             @Override
             public void onNext(ClassList classList) {
                 instance.getView().initView(classList);
-                refreshFragment(classList.getInfo().get(0).getClassID(),0);
+                //((AnswerActivity)instance.getView()).username.setText(classList.getInfo().get(1).getHavenVote());
+                refreshFragment(classList.getInfo().get(0).getClassID(),0,0);
             }
 
             @Override
@@ -65,7 +68,7 @@ public class AnswerPreImpl extends AnswerPre {
                 disposable.dispose();
             }
         };
-        ((AnswerModelImpl)instance.getModel()).getCurrentClass()
+        ((AnswerModelImpl)instance.getModel()).getCurrentClass(new Gson().toJson(new Token(token)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
@@ -102,7 +105,7 @@ public class AnswerPreImpl extends AnswerPre {
                 disposable.dispose();
             }
         };
-        ((AnswerModelImpl)instance.getModel()).getCurrentClass()
+        ((AnswerModelImpl)instance.getModel()).getCurrentClass(null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
@@ -113,7 +116,7 @@ public class AnswerPreImpl extends AnswerPre {
      * 2.得到数据后调用View的initFragment方法初始化fragment
      * @param classID 班级id
      */
-    public void refreshFragment(String classID,final int position)
+    public void refreshFragment(String classID,final int position,final int state)
     {
         currentObserver=new Observer<CurrentClass>() {
             Disposable disposable;
@@ -124,7 +127,7 @@ public class AnswerPreImpl extends AnswerPre {
 
             @Override
             public void onNext(CurrentClass currentClass) {
-                getView().initFragment(currentClass,position);
+                getView().initFragment(currentClass,position,state);
             }
 
             @Override
@@ -160,11 +163,11 @@ public class AnswerPreImpl extends AnswerPre {
             @Override
             public void onNext(ScoreRes scoreRes) {
                 //((AnswerActivity)getView()).test.setText(scoreRes.getErrcode());
-                if(scoreRes.getErrcode()=="0")
+                if(scoreRes.getErrcode()==0)
                     ((AnswerActivity)getView()).notifyTickViewChange(position);
                 else
                     ((AnswerActivity)getView()).showToast(scoreRes.getErrcode()+":"+scoreRes.getErrmsg());
-                ((AnswerActivity)getView()).notifyTickViewChange(position);
+                //((AnswerActivity)getView()).notifyTickViewChange(position);
             }
 
             @Override
