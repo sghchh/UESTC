@@ -131,4 +131,128 @@ public class AnswerListenerImpl extends AnswerListener {
     }
 }
 ```  
-Listener的设计和MVP很像，也是根据需求得到接口，在逐步加工得到实现类。  
+Listener的设计和MVP很像，也是根据需求得到接口，在逐步加工得到实现类。  
+## 2. 监听EditText内容的变化限定只能输入一位小数  
+由于后台需要上传的打分只能是一为小数，但是用户可能输入的字符是不一定的，单单是依靠EditText的属性inputType是无法满足需求的，所以就需要设置监听来进行约束。好在Android内部有一个TextWatcher专门用来实现这一功能，这是一个接口，根据需求实现功能需要重写三个方法：  
+```  
+public class MyTextWatcher implements TextWatcher {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        switch (s.length())
+        {
+            case 0:
+                break;
+            case 1:
+                oneChar(s);
+                break;
+            case 2:
+                twoChar(s);
+                break;
+            case 3:
+                threeChar(s);
+                break;
+            case 4:
+                fourChar(s);
+                break;
+            case 5:
+                fiveChar(s);
+                break;
+            default:
+                fiveChar(s.delete(5,s.length()-1));
+                break;
+        }
+    }
+```  
+根据名字我们就能够看出三个方法分别在“改变前”“改变时”“改变后”被调用，我们通常是通过重写第三个方法来实现功能：
+```
+private void oneChar(Editable s)
+    {
+        if(s.toString().equals("."))
+            s.delete(0,1);
+    }
+
+    private void twoChar(Editable s)
+    {
+        if(!s.toString().endsWith(".")&&s.toString().startsWith("0"))
+            s.delete(0,1);
+    }
+
+    /*
+    处理x.x   x..   xx.   xxx  三种情况
+    其中需要处理的是x.. 和xxx二重情况
+     */
+    private void threeChar(Editable s)
+    {
+        if(s.toString().contains(".."))
+            s.delete(2,3);
+        if(!s.toString().contains("."))
+        {
+            s=Integer.parseInt(s.toString())>100?s.delete(2,3):s;
+        }
+    }
+
+    /*
+    处理100.  100x  xx..  xx.x  x.x.  x.xx四种情况
+    需要处理的只有100x  xx..  x.x.  x.xx四种
+     */
+    private void fourChar(Editable s)
+    {
+        //100x
+        if(s.toString().contains("100")&&!s.toString().endsWith("."))
+            s.replace(s.length()-1,s.length(),".");
+        //xx..
+        if(s.toString().endsWith(".."))
+            s.delete(s.length()-1,s.length());
+        //x.x.
+        if(s.toString().endsWith(".")&&!s.toString().endsWith("..")&&!s.toString().contains("100"))
+            s.delete(s.length()-1,s.length());
+        //x.xx
+        if(s.subSequence(0,2).toString().endsWith(".")&&!s.toString().endsWith("."))
+            s.delete(s.length()-1,s.length());
+    }
+
+    /*
+    处理100.x  100..  xx.x.  xx.xx
+     */
+    private void fiveChar(Editable s)
+    {
+        if(s.toString().contains("100.")&&!s.toString().endsWith("0"))
+            s.replace(s.length()-1,s.length(),"0");
+        if(!s.toString().contains("100."))
+            s.delete(s.length()-1,s.length());
+    }
+```
+## 3. 类似于QQ的保存登录状态  
+之前没有接触过这种需要客户提交登录到后台的处理，接触过以后，对这种看起来复杂的逻辑有了更加清晰的认识，原来是如此的简单：  
+### 3.1 登录  
+登录需要我们提交用户名和密码，如果登录成功的话，返回的是一个token；其实重要的就是这个token字符串，一般这种需要登录的东西，后续的网络数据都需要根据你的身份（实际上这个token就唯一标记了一个用户）来进行请求，所以只要我们在第一次登录成功后保存了这个token，之后登录就可以跳过登录界面的输入密码和用户名的过程。通常保存这个token是用的SharedPreferences实现的：  
+```  
+  /*
+        如果SharedPreferences中的token数据为空，说明是第一次登陆
+        则启动loginActivity；如果不为空，就跳过loginActivity界面，直接启动主界面
+         */
+        TOKEN=preferences.getString("token",null);
+
+        /*
+        如果是第一次登陆，保存user信息到本地
+         */
+        if(getIntent().getStringExtra("token")!=null)
+        {
+            //这里的editor是SharePreferences.editor()
+            TOKEN=getIntent().getStringExtra("token");
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putString("username",getIntent().getStringExtra("username"));
+            editor.putString("token",getIntent().getStringExtra("token"));
+            editor.apply();
+        }
+```
