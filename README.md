@@ -254,5 +254,12 @@ private void oneChar(Editable s)
             editor.putString("username",getIntent().getStringExtra("username"));
             editor.putString("token",getIntent().getStringExtra("token"));
             editor.apply();
+        }  
+        
+        if(TOKEN==null)
+        {
+            Intent intent=new Intent(this, LoginActivity.class);
+            pre.loadInitialDataWithoutFragment();
+            startActivity(intent);
         }
 ```
