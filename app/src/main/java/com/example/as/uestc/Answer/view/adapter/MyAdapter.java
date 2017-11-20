@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import com.example.as.uestc.R;
  * Created by as on 2017/11/5.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implements View.OnClickListener {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements View.OnClickListener {
     private ClassList list;
     private Activity activity;
 
@@ -32,13 +33,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item,null);
-        return new ViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.setContent(list,position);
         //将position和state合封装成一个字符串
         holder.colloge.setTag(position+""+holder.state);
@@ -47,10 +48,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         holder.classes.setOnClickListener(this);
         //holder.rank.setTag(position+""+holder.state);
         //holder.rank.setOnClickListener(this);
-        holder.imageView.setTag(position+""+holder.state);
-        holder.imageView.setOnClickListener(this);
-        //holder.details.setTag(position);
-        //holder.details.setOnClickListener(this);
+        //holder.imageView.setTag(position+""+holder.state);
+        //holder.imageView.setOnClickListener(this);
+        holder.details.setTag(position+""+holder.state);
+        holder.details.setOnClickListener(this);
     }
 
     @Override
@@ -77,21 +78,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
     {
         return this.list;
     }
-    class ViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
 
         private int state;
         private ImageView imageView;
         private TextView rank,classes,colloge;
-        //private TextView details;
+        private Button details;
         //private TickView tickView;
         private CircleImageView logo;
-        public ViewHolder(View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
             imageView=(ImageView)itemView.findViewById(R.id.recycler_item_image);
             //rank=(TextView)itemView.findViewById(R.id.recycler_item_rank);
             classes=(TextView)itemView.findViewById(R.id.recycler_item_class);
             colloge=(TextView)itemView.findViewById(R.id.recycler_item_college);
-            //details=(TextView) itemView.findViewById(R.id.recycler_item_detail);
+            details=(Button) itemView.findViewById(R.id.recycler_item_detail);
             //tickView=(TickView)itemView.findViewById(R.id.recycler_item_tick);
             logo=(CircleImageView)itemView.findViewById(R.id.recycler_item_logo);
         }
@@ -100,16 +101,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> implem
         {
             Info info=list.getInfo().get(position);
             state=info.getHavenVote();
-            Glide.with(activity).load(info.getCover()).into(imageView);
+            Glide.with(activity).load(info.getCover()).fitCenter().into(imageView);
+
             //rank.setText(info.getOrderNum());
             classes.setText(info.getClassID());
-            colloge.setText(info.getCover());
+            colloge.setText(info.getAcademy());
             if(info.getHavenVote()==0)
                 logo.setBackground(activity.getDrawable(R.drawable.not));
             else
                 logo.setBackground(activity.getDrawable(R.drawable.has));
         }
+
+        public CircleImageView getLogo()
+        {
+            return this.logo;
+        }
     }
+
 
     public void setMyRecyclerListener(RecyclerClickListener listener)
     {

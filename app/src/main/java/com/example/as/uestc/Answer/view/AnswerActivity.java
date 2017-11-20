@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.as.uestc.Answer.CircleImageView;
 import com.example.as.uestc.Answer.beans.ClassList;
 import com.example.as.uestc.Answer.beans.CurrentClass;
 import com.example.as.uestc.Answer.beans.ScorePost;
@@ -156,8 +155,8 @@ public class AnswerActivity extends AnswerView {
     public void notifyTickViewChange(int position)
     {
         fragment.resetDrawable();
-        View view=recycler.getChildAt(position);
-        ((CircleImageView)view.findViewById(R.id.recycler_item_logo)).setBackground(getDrawable(R.drawable.has));
+        MyAdapter.MyViewHolder mholder=(MyAdapter.MyViewHolder) recycler.findViewHolderForAdapterPosition(position);
+        mholder.getLogo().setBackground(getDrawable(R.drawable.has));
     }
 
     /**
