@@ -54,7 +54,7 @@ public class AnswerPreImpl extends AnswerPre {
             public void onNext(ClassList classList) {
                 instance.getView().initView(classList);
                 //((AnswerActivity)instance.getView()).username.setText(classList.getInfo().get(1).getHavenVote());
-                refreshFragment(classList.getInfo().get(0).getClassID(),0,0);
+                refreshFragment(classList.getInfo().get(0).getClassID(),0,classList.getInfo().get(0).getHavenVote());
             }
 
             @Override

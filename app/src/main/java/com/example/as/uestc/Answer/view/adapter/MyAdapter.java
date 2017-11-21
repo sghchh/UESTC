@@ -101,7 +101,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         {
             Info info=list.getInfo().get(position);
             state=info.getHavenVote();
-            Glide.with(activity).load(info.getCover()).fitCenter().into(imageView);
+            Glide.with(activity).load(info.getCover()).override(800,400).fitCenter().into(imageView);
 
             //rank.setText(info.getOrderNum());
             classes.setText(info.getClassID());
