@@ -33,6 +33,7 @@ public class AnswerActivity extends AnswerView {
     private AnswerView answerView;
     private AnswerPreImpl pre;
     private RecyclerView recycler;
+    private MyAdapter myAdapter;
     private ImageView head;
     private MainFragment fragment;
     private SharedPreferences preferences;
@@ -90,14 +91,14 @@ public class AnswerActivity extends AnswerView {
         recycler=(RecyclerView)findViewById(R.id.answer_acitvity_recycler);
         LinearLayoutManager line=new LinearLayoutManager(this);
         line.setOrientation(LinearLayoutManager.VERTICAL);
-        final MyAdapter myAdapter=new MyAdapter(classList,this);
+        myAdapter=new MyAdapter(classList,this);
         recycler.setLayoutManager(line);
         recycler.setAdapter(myAdapter);
 
         listener=new MyAdapter.RecyclerClickListener() {
             @Override
             public void recyclerClick(int position,int state) {
-                getListener().callPresenterToRefreshFragment(classList.getInfo().get(position).getClassID(),position,classList.getInfo().get(position).getHavenVote());
+                getListener().callPresenterToRefreshFragment(classList.getInfo().get(position).getClassID(),position,myAdapter.getList().getInfo().get(position).getHavenVote());
             }
         };
 
@@ -124,12 +125,14 @@ public class AnswerActivity extends AnswerView {
 
         Bundle bundle=new Bundle();
         bundle.putInt("position",position);
-        bundle.putSerializable("listener",getListener());
-        bundle.putSerializable("currentclass",currentClass);
+        //bundle.putSerializable("listener",getListener());
+        //bundle.putSerializable("currentclass",currentClass);
         bundle.putString("token",TOKEN);
         bundle.putInt("state",state);
         fragment=new MainFragment();
         fragment.setArguments(bundle);
+        fragment.setCurrentClass(currentClass);
+        fragment.setListener(getListener());
 
         FragmentTransaction transaction=getFragmentManager().beginTransaction();
         transaction.replace(R.id.answer_activity_fragment,fragment);
@@ -157,6 +160,8 @@ public class AnswerActivity extends AnswerView {
         fragment.resetDrawable();
         MyAdapter.MyViewHolder mholder=(MyAdapter.MyViewHolder) recycler.findViewHolderForAdapterPosition(position);
         mholder.getLogo().setBackground(getDrawable(R.drawable.has));
+        //修改是否打分的状态
+        myAdapter.changeVoteState(position);
     }
 
     /**

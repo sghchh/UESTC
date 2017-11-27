@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.example.as.uestc.Answer.ZoomOutPageTransformer;
 import com.example.as.uestc.Answer.beans.CurrentClass;
 import com.example.as.uestc.Answer.beans.ScorePost;
-import com.example.as.uestc.Answer.presenter.AnswerListenerImpl;
 import com.example.as.uestc.Answer.view.AnswerActivity;
 import com.example.as.uestc.Answer.view.adapter.MyPagerAdapter;
 import com.example.as.uestc.R;
@@ -62,8 +61,8 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         context=this;
         TOKEN=getArguments().getString("token");
-        listener=(AnswerListenerImpl)getArguments().getSerializable("listener");
-        currentClass=(CurrentClass)getArguments().getSerializable("currentclass");
+        //listener=(AnswerListenerImpl)getArguments().getSerializable("listener");
+        //currentClass=(CurrentClass)getArguments().getSerializable("currentclass");
         ID=currentClass.getClassID();
         POSITION=getArguments().getInt("position");
         STATE=getArguments().getInt("state");
@@ -165,5 +164,15 @@ public class MainFragment extends Fragment {
             String score=data.getExtras().getString("score");
             ((AnswerActivity)getActivity()).postScore(new ScorePost(id,score,token),POSITION);
         }
+    }
+
+    public void setListener(EventListener listener)
+    {
+        this.listener=listener;
+    }
+
+    public void setCurrentClass(CurrentClass currentClass)
+    {
+        this.currentClass=currentClass;
     }
 }

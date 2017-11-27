@@ -6,7 +6,7 @@
     <color name="tick_yellow">#f5d747</color>
     <color name="tick_gray">#eaeaea</color>
     <color name="tick_white">#fff</color>
-    <color name="background_hint">#ff999999</color>
+    <color name="background_hint">#aaabacbc</color>
     <color name="text_color_gray">#aaffffff</color>
     <color name="text_color_white">#dddddddd</color>
     <color name="shape_start">#FFff6655</color>

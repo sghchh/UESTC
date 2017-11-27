@@ -78,6 +78,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
     {
         return this.list;
     }
+
+    /**
+     * 打分成功后修改本地的ClassList中对应的班级的HavenVote的值
+     * @param position 已经投票的班级
+     */
+    public void changeVoteState(int position)
+    {
+        list.getInfo().get(position).setHavenVote(1);
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         private int state;

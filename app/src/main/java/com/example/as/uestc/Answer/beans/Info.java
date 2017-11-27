@@ -42,4 +42,9 @@ public class Info implements Serializable{
         {
             return this.orderNum;
         }
+
+        public void setHavenVote(int state)
+        {
+                this.havenVote=state;
+        }
 }

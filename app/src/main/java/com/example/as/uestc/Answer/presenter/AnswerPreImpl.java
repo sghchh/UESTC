@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.as.uestc.Answer.beans.ClassList;
 import com.example.as.uestc.Answer.beans.CurrentClass;
+import com.example.as.uestc.Answer.beans.Info;
 import com.example.as.uestc.Answer.beans.ScorePost;
 import com.example.as.uestc.Answer.beans.ScoreRes;
 import com.example.as.uestc.Answer.beans.Token;
@@ -12,6 +13,8 @@ import com.example.as.uestc.Answer.view.AnswerActivity;
 import com.example.as.uestc.base.mvp.model.BaseModel;
 import com.example.as.uestc.base.mvp.view.BaseView;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -54,7 +57,9 @@ public class AnswerPreImpl extends AnswerPre {
             public void onNext(ClassList classList) {
                 instance.getView().initView(classList);
                 //((AnswerActivity)instance.getView()).username.setText(classList.getInfo().get(1).getHavenVote());
-                refreshFragment(classList.getInfo().get(0).getClassID(),0,classList.getInfo().get(0).getHavenVote());
+                List<Info> info=classList.getInfo();
+                if(info!=null)
+                    refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
             }
 
             @Override
@@ -115,6 +120,8 @@ public class AnswerPreImpl extends AnswerPre {
      * 1.根据当前的班级id进行网络数据请求
      * 2.得到数据后调用View的initFragment方法初始化fragment
      * @param classID 班级id
+     * @param position 当前Fragment显示的是RecyclerView中的哪一个数据
+     * @param state 当前班级是否已经打过分了，0未打，1已打
      */
     public void refreshFragment(String classID,final int position,final int state)
     {

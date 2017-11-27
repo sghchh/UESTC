@@ -9,9 +9,9 @@
         android:radius="20dp"/>
     <gradient
         android:angle="0"
-        android:centerColor="@color/shape_center"
-        android:startColor="@color/shape_start"
-        android:endColor="@color/shape_end"
+        android:centerColor="@color/background_star"
+        android:startColor="@color/background_center"
+        android:endColor="@color/background_end"
         android:type="linear"/>
 
 </shape>
