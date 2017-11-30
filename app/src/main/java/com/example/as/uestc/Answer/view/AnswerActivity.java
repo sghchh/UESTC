@@ -27,18 +27,28 @@ import com.example.as.uestc.login.LoginActivity;
 public class AnswerActivity extends AnswerView {
 
     private DrawerLayout drawerLayout;
+    //侧滑栏的账号的名字
     public TextView username;
+    //切换账号的按钮
     private Button switchUser;
+    //非第一次登录保存的token
     private String TOKEN;
     private AnswerView answerView;
     private AnswerPreImpl pre;
+
+    //展示班级列表的RecyclerView
     private RecyclerView recycler;
+    //RecyclerView的Adapter
     private MyAdapter myAdapter;
+    //侧滑栏的头像
     private ImageView head;
+    //展示当前答辩班级的详细信息的Fragment
     private MainFragment fragment;
     private SharedPreferences preferences;
 
     private MyAdapter.RecyclerClickListener listener;
+
+    private MyScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +104,8 @@ public class AnswerActivity extends AnswerView {
         myAdapter=new MyAdapter(classList,this);
         recycler.setLayoutManager(line);
         recycler.setAdapter(myAdapter);
+        scrollListener=new MyScrollListener();
+        recycler.setOnScrollListener(scrollListener);
 
         listener=new MyAdapter.RecyclerClickListener() {
             @Override
@@ -101,6 +113,7 @@ public class AnswerActivity extends AnswerView {
                 getListener().callPresenterToRefreshFragment(classList.getInfo().get(position).getClassID(),position,myAdapter.getList().getInfo().get(position).getHavenVote());
             }
         };
+
 
         switchUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,4 +186,37 @@ public class AnswerActivity extends AnswerView {
         Toast.makeText(this,content,Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * 当保存的TOKEN失效了的话
+     * 重新进入登录界面
+     * 在post失效的时候调用
+     */
+    public void reLogin()
+    {
+        preferences.edit().clear();
+        Intent intent=new Intent(this, LoginActivity.class);
+        pre.loadInitialDataWithoutFragment();
+        startActivity(intent);
+    }
+
+    class MyScrollListener extends RecyclerView.OnScrollListener{
+        int visiableLastPosition;
+        LinearLayoutManager manager;
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState){
+            super.onScrollStateChanged(recyclerView,newState);
+            //manager=(LinearLayoutManager) recyclerView.getLayoutManager();
+            //visiableLastPosition=manager.findLastVisibleItemPosition();
+            if(newState==RecyclerView.SCROLL_STATE_IDLE&&visiableLastPosition==manager.getItemCount()-1)
+                ((AnswerActivity)answerView).showToast("已经到底了");
+
+        }
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+            super.onScrolled(recyclerView,dx,dy);
+            manager=(LinearLayoutManager) recyclerView.getLayoutManager();
+            visiableLastPosition=manager.findLastVisibleItemPosition();
+        }
+    }
+
 }
+
+

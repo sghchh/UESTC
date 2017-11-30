@@ -26,6 +26,8 @@ import com.example.as.uestc.base.mvp.EventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
+
 /**
  * Created by as on 2017/11/5.
  */
@@ -34,6 +36,7 @@ public class MainFragment extends Fragment {
     private String TOKEN,ID;
     private EventListener listener;
     private MainFragment context;
+    private CircleIndicator indicator;
     private TextView back,classRank,rank,classer,details,push,description;
     private ViewPager viewPager;
     private List<View> views=new ArrayList<>();
@@ -108,6 +111,8 @@ public class MainFragment extends Fragment {
         viewPager.setOffscreenPageLimit(2);
         ZoomOutPageTransformer transformation=new ZoomOutPageTransformer();
         viewPager.setPageTransformer(true,transformation);
+        indicator=(CircleIndicator)view.findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
 
         /*
         如果已经投过票了，就换成已投的图标，并且不可点击

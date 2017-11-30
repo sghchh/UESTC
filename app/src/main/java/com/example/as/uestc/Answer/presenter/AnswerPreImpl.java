@@ -57,9 +57,21 @@ public class AnswerPreImpl extends AnswerPre {
             public void onNext(ClassList classList) {
                 instance.getView().initView(classList);
                 //((AnswerActivity)instance.getView()).username.setText(classList.getInfo().get(1).getHavenVote());
-                List<Info> info=classList.getInfo();
-                if(info!=null)
-                    refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
+                /*
+                如果当前的token被删除了，或者在其他地方登陆
+                则重新进入登录界面
+                 */
+                if(classList==null)
+                {
+                    ((AnswerActivity)getView()).showToast(classList.getErrcode()+":"+classList.getErrmsg());
+                    ((AnswerActivity)getView()).reLogin();
+                }
+                else
+                {
+                    List<Info> info=classList.getInfo();
+                    if(info!=null)
+                        refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
+                }
             }
 
             @Override

@@ -55,7 +55,7 @@
         <LinearLayout
             android:layout_weight="2.5"
             android:orientation="horizontal"
-            android:weightSum="7.6"
+            android:weightSum="8"
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="0dp">
@@ -86,7 +86,15 @@
 
         </LinearLayout>
 
-
+        <me.relex.circleindicator.CircleIndicator
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            card:ci_width="10dp"
+            card:ci_height="10dp"
+            card:ci_drawable="@drawable/background2"
+            card:ci_drawable_unselected="@drawable/background"
+            android:id="@+id/indicator">
+        </me.relex.circleindicator.CircleIndicator>
 
         <RelativeLayout
             android:layout_weight="1"
