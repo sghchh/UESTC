@@ -288,6 +288,7 @@ class MyScrollListener extends RecyclerView.OnScrollListener{
 实现就是通过加一个滑动的监听就可以了，根据源代码的注释可以了解到，这个抽象类的第一个方法调用在滑动的时候，第二个方法调用在滑动结束的时候。  
 1. manager.findLastVisibleItemPosition():这个方法的意思是，返回手机屏幕中的RecyclerView所显示的最后一个视图在adapter数据源中的position；  所以只要这个position等于所有的数据的数目-1，就说明这个最后一个数据了，也就是visiableLastPosition==manager.getItemCount()-1；  
 2. 而newState有三个值：  
+
     * int SCROLL_STATE_DRAGGING：The RecyclerView is currently being dragged by outside input such as user touch input.  
-    * int SCROLL_STATE_IDLE：The RecyclerView is not currently scrolling.  
+    * int SCROLL_STATE_IDLE：The RecyclerView is not currently scrolling. 
     * int SCROLL_STATE_SETTLING：The RecyclerView is currently animating to a final position while not under outside control.
