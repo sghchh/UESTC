@@ -81,7 +81,7 @@ public class AnswerActivity extends AnswerView {
         if(TOKEN==null)
         {
             Intent intent=new Intent(this, LoginActivity.class);
-            pre.loadInitialDataWithoutFragment();
+            //pre.loadInitialDataWithoutFragment();
             startActivity(intent);
         }
         else

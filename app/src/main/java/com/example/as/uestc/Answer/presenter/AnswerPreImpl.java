@@ -61,6 +61,7 @@ public class AnswerPreImpl extends AnswerPre {
                 如果当前的token被删除了，或者在其他地方登陆
                 则重新进入登录界面
                  */
+                /*
                 if(classList==null)
                 {
                     ((AnswerActivity)getView()).showToast(classList.getErrcode()+":"+classList.getErrmsg());
@@ -71,6 +72,18 @@ public class AnswerPreImpl extends AnswerPre {
                     List<Info> info=classList.getInfo();
                     if(info!=null)
                         refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
+                }
+                */
+                if(classList.getErrcode()==0)
+                {
+                    List<Info> info=classList.getInfo();
+                    if(info!=null)
+                        refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
+                }
+                else
+                {
+                    ((AnswerActivity)getView()).showToast(classList.getErrcode()+":"+classList.getErrmsg());
+                    ((AnswerActivity)getView()).reLogin();
                 }
             }
 
