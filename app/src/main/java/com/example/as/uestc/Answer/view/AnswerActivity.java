@@ -143,9 +143,10 @@ public class AnswerActivity extends AnswerView {
         bundle.putString("token",TOKEN);
         bundle.putInt("state",state);
         fragment=new MainFragment();
+        fragment.setListener(getListener());
         fragment.setArguments(bundle);
         fragment.setCurrentClass(currentClass);
-        fragment.setListener(getListener());
+
 
         FragmentTransaction transaction=getFragmentManager().beginTransaction();
         transaction.replace(R.id.answer_activity_fragment,fragment);

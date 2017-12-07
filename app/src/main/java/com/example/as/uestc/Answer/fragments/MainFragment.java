@@ -119,9 +119,10 @@ public class MainFragment extends Fragment {
          */
         if(STATE==1)
         {
+            push.setEnabled(false);
             push.setBackground(getActivity().getDrawable(R.drawable.shape_has));
             push.setTextColor(Color.parseColor("#dddddddd"));
-            push.setClickable(false);
+
         }
     }
 
@@ -156,7 +157,7 @@ public class MainFragment extends Fragment {
     public void resetDrawable()
     {
         push.setBackground(getActivity().getDrawable(R.drawable.shape_has));
-        push.setClickable(false);
+        push.setEnabled(false);
         push.setTextColor(Color.parseColor("#dddddddd"));
     }
     @Override
