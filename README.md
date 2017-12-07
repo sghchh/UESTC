@@ -290,4 +290,8 @@ class MyScrollListener extends RecyclerView.OnScrollListener{
 2. 而newState有三个值：  
     * int SCROLL_STATE_DRAGGING：The RecyclerView is currently being dragged by outside input such as user touch input.  
     * int SCROLL_STATE_IDLE：The RecyclerView is not currently scrolling. 
-    * int SCROLL_STATE_SETTLING：The RecyclerView is currently animating to a final position while not under outside control.
+    * int SCROLL_STATE_SETTLING：The RecyclerView is currently animating to a final position while not under outside control.  
+
+## 6. 细节  
+1. 关于控件设置setClickable(false)失效的问题  
+百度一下，发现setClickable(false)这个方法必须在控件的点击事件之后调用才可以实现永久的不可点击；因为控件的setClickableListener方法会重写view，把Clickable设置为true；要想实现永久的不可点击还可以通过Enable(false)方法来实现，这个方法不管setClickListener的调用位置，直接设置为不可点击。
