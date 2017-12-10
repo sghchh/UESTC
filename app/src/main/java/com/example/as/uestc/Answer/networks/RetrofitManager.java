@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitManager {
-    private static final String BASEURL="http://dev.jcuan.org/";
+    private static final String BASEURL="http://youban.stuhome.com/";
     private Retrofit RETROFIT=null;
     private static RetrofitManager instance=null;
     private RetrofitManager()
