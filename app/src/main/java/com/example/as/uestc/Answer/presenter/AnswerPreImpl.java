@@ -74,13 +74,15 @@ public class AnswerPreImpl extends AnswerPre {
                         refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
                 }
                 */
-                if(classList.getErrcode()==0)
+                if(classList.getErrcode()==0&&classList.getInfo()!=null)
                 {
                     List<Info> info=classList.getInfo();
-                    if(info!=null)
+                    if(info.size()>0)
                         refreshFragment(info.get(0).getClassID(),0,info.get(0).getHavenVote());
+                    else
+                        ((AnswerActivity)getView()).showToast("后台无数据...");
                 }
-                else
+                else if(classList.getErrcode()!=0)
                 {
                     ((AnswerActivity)getView()).showToast(classList.getErrcode()+":"+classList.getErrmsg());
                     ((AnswerActivity)getView()).reLogin();
